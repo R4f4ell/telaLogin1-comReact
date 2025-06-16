@@ -1,0 +1,191 @@
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #111827;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.login-form {
+  background-color: #1f2937;
+  border-radius: 16px;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 540px; // ✅ LARGURA AMPLIADA NO DESKTOP
+  color: #f3f4f6;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+
+  &__title {
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  &__message {
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+
+    &--success {
+      color: #22c55e;
+      background-color: #064e3b;
+    }
+
+    &--error {
+      color: #f87171;
+      background-color: #7f1d1d;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  &__group {
+    label {
+      display: block;
+      color: #9ca3af;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      background-color: #111827;
+      border: 1px solid #374151;
+      border-radius: 6px;
+      color: #f3f4f6;
+      font-size: 1rem;
+
+      &:focus {
+        border-color: #a78bfa;
+        outline: none;
+      }
+    }
+
+    .login-form__forgot {
+      text-align: right;
+      margin-top: 6px;
+
+      a {
+        font-size: 0.8rem;
+        color: #9ca3af;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+          color: #a78bfa;
+        }
+      }
+    }
+  }
+
+  &__button {
+    background-color: #a78bfa;
+    color: #111827;
+    border: none;
+    padding: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #cdbffc;
+    }
+  }
+
+  &__social-message {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0 1rem;
+
+    .line {
+      flex: 1;
+      height: 1px;
+      background-color: #374151;
+    }
+
+    .message {
+      padding: 0 10px;
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+  }
+
+  &__social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 1rem;
+
+    .icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      transition: all 0.3s ease;
+
+      svg {
+        width: 32px;
+        height: 32px;
+        color: #f3f4f6;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 0 0 transparent);
+      }
+
+      &:hover svg {
+        filter: drop-shadow(0 2px 6px rgba(167, 139, 250, 0.5));
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  &__signup {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+    color: #9ca3af;
+
+    a {
+      color: #f3f4f6;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+        color: #a78bfa;
+      }
+    }
+  }
+
+  &__error {
+    color: #f87171;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    padding-left: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-form {
+    padding: 1.5rem;
+    max-width: 92%;
+
+    &__title {
+      font-size: 1.5rem;
+    }
+
+    &__button {
+      font-size: 1rem;
+    }
+  }
+}
