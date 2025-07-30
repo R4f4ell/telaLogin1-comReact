@@ -3,9 +3,9 @@ import LoginForm from './components/LoginForm'
 
 function App() {
   return (
-    <div className="App">
+    <main className="App">
       <LoginForm />
-    </div>
+    </main>
   )
 }
 

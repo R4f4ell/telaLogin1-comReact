@@ -33,14 +33,14 @@ const LoginForm = () => {
   );
 
   return (
-    <main className="login-page">
+    <section className="login-page">
       <motion.div
         className="login-form"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
-        <p className="login-form__title">Login</p>
+        <h1 className="login-form__title">Login</h1>
 
         {message && (
           <p
@@ -85,7 +85,7 @@ const LoginForm = () => {
               <p className="login-form__error">{errors.password}</p>
             )}
             <div className="login-form__forgot">
-              <a href="#">Forgot Password?</a>
+              <a href="#" target="_blank" rel="noopener noreferrer">Forgot Password?</a>
             </div>
           </div>
 
@@ -101,22 +101,22 @@ const LoginForm = () => {
         </div>
 
         <div className="login-form__social-icons">
-          <button className="icon" aria-label="Login com Google">
+          <button className="icon" aria-label="Entrar com Google">
             <Mail size={32} strokeWidth={1.5} />
           </button>
-          <button className="icon" aria-label="Login com Twitter">
+          <button className="icon" aria-label="Entrar com Twitter">
             <Twitter size={32} />
           </button>
-          <button className="icon" aria-label="Login com GitHub">
+          <button className="icon" aria-label="Entrar com GitHub">
             <Github size={32} />
           </button>
         </div>
 
         <p className="login-form__signup">
-          Don't have an account? <a href="#">Sign up</a>
+          Don't have an account? <a href="#" target="_blank" rel="noopener noreferrer">Sign up</a>
         </p>
       </motion.div>
-    </main>
+    </section>
   );
 };
 
