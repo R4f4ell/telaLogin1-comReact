@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import '../styles/main.scss';
 import { motion } from 'framer-motion';
 import { Github, Twitter, Mail } from 'lucide-react';
@@ -16,10 +16,21 @@ const LoginForm = () => {
     validate
   } = useLoginForm();
 
-  const handleLogin = (e) => {
+  const handleLogin = useCallback((e) => {
     e.preventDefault();
     if (!validate()) return;
-  };
+    // fluxo de login…
+  }, [validate]);
+
+  const handleUsernameChange = useCallback(
+    (e) => setUsername(e.target.value),
+    [setUsername]
+  );
+
+  const handlePasswordChange = useCallback(
+    (e) => setPassword(e.target.value),
+    [setPassword]
+  );
 
   return (
     <main className="login-page">
@@ -50,7 +61,7 @@ const LoginForm = () => {
               maxLength="30"
               autoComplete="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleUsernameChange}
               required
             />
             {errors.username && (
@@ -65,8 +76,9 @@ const LoginForm = () => {
               id="password"
               minLength="8"
               maxLength="8"
+              autoComplete="current-password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
               required
             />
             {errors.password && (
@@ -108,4 +120,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default memo(LoginForm);

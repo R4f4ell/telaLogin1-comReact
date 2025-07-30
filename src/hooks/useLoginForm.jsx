@@ -1,7 +1,6 @@
-// src/hooks/useLoginForm.js
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 
-// Hook personalizado que encapsula toda a lógica do formulário de login
+// Hook personalizado 
 export function useLoginForm() {
   // Estados dos campos
   const [username, setUsername] = useState('');
@@ -14,11 +13,11 @@ export function useLoginForm() {
   // Erros específicos de cada campo
   const [errors, setErrors] = useState({
     username: '',
-    password: ''
+    password: '',
   });
 
   // Função que valida os campos
-  const validate = () => {
+  const validate = useCallback(() => {
     const newErrors = { username: '', password: '' };
     let hasError = false;
 
@@ -43,16 +42,19 @@ export function useLoginForm() {
     setMessage(`Bem-vindo, ${username}!`);
     setMessageType('success');
     return true;
-  };
+  }, [username, password]);
 
-  return {
-    username,
-    setUsername,
-    password,
-    setPassword,
-    message,
-    messageType,
-    errors,
-    validate
-  };
+  return useMemo(
+    () => ({
+      username,
+      setUsername,
+      password,
+      setPassword,
+      message,
+      messageType,
+      errors,
+      validate,
+    }),
+    [username, password, message, messageType, errors, validate]
+  );
 }
