@@ -14,8 +14,8 @@ Interface de login responsiva e acessível, desenvolvida com React e SCSS. O pro
 - Mensagens dinâmicas de erro e sucesso
 - Botões de login social com acessibilidade (`aria-label`)
 - Layout responsivo com SCSS 
-- Animação de entrada com Framer Motion
+- Animação de entrada com Framer MotionC:\Users\usuario\Desktop\portfolio\src\components\header
 
 ## 🔗 Links
-- Projeto online: https://login.rafaelldev.com
+- Projeto online: https://teladelogin.rafaelldev.com
 - Código-fonte: https://github.com/R4f4ell/telaLogin1-comReact
