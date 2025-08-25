@@ -1,0 +1,37 @@
+@use './variables' as vars;
+
+/* Visually hidden (acessível) */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute; left: 8px; top: 8px;
+  padding: 8px 12px; border-radius: 8px;
+  background: vars.$color-primary; color: #111;
+  transform: translateY(-150%);
+  transition: transform .2s ease;
+  z-index: 1000; text-decoration: none; font-weight: 600;
+}
+.skip-link:focus { transform: translateY(0); }
+
+/* Foco acessível */
+:focus-visible {
+  outline: 2px solid vars.$color-primary;
+  outline-offset: 3px;
+}
+
+/* Respeito a reduzido movimento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

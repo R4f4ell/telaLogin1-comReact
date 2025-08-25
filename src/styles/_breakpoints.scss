@@ -1,0 +1,17 @@
+$breakpoints: (
+  mobile-360: 360px,
+  mobile-390: 390px,
+  mobile-412: 412px,
+  tablet-768: 768px,
+  tablet-800: 800px,
+  desk-1366: 1366px,
+  desk-1440: 1440px,
+  desk-1920: 1920px
+);
+
+@mixin up($name) {
+  $size: map-get($breakpoints, $name);
+  @if $size {
+    @media (min-width: $size) { @content; }
+  }
+}

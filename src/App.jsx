@@ -1,12 +1,13 @@
-import './styles/main.scss'
 import LoginForm from './components/LoginForm'
 
-function App() {
+export default function App() {
   return (
-    <main className="App">
-      <LoginForm />
-    </main>
+    <>
+      <a href="#main" className="skip-link">Pular para o conteúdo</a>
+
+      <main id="main" role="main" className="App" aria-label="Área principal">
+        <LoginForm />
+      </main>
+    </>
   )
 }
-
-export default App
