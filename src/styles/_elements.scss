@@ -1,17 +1,30 @@
-html, body, #root { height: 100%; }
+@use './variables' as v;
 
 body {
-  background-color: #111827;
+  /* Fundo global com a nova paleta */
+  background: linear-gradient(180deg, v.$bg-1 0%, v.$bg-2 100%);
+  color: v.$color-text;
+
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
     Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol";
-  min-height: 100vh;
+
+  /* Mantém o layout centralizado como você já usava */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+
+  /* Qualquer controle padrão usa o ciano do tema */
+  accent-color: v.$brand;
+}
+
+/* Seleção de texto no tema */
+::selection {
+  background: rgba(v.$brand, 0.25);
+  color: v.$color-text;
 }
 
 button { background: none; }

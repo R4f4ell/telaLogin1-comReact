@@ -3,22 +3,65 @@
 
 /* Página */
 .login-page {
+  position: relative;
+
+  /* full-bleed: ocupa 100vw, mesmo se o wrapper tiver max-width */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  background-color: vars.$color-bg;
-  padding: 1.25rem; /* base mobile */
+  height: 100vh;
+  padding: 1.25rem;
   overflow: hidden;
+
+  /* Fundo com gradientes + blobs blur usando as variáveis globais */
+  background:
+    radial-gradient(1100px 600px at 10% -10%, rgba(vars.$blob-b, .18), transparent 60%),
+    radial-gradient(900px 520px at 110% 110%, rgba(vars.$blob-a, .18), transparent 60%),
+    linear-gradient(180deg, vars.$bg-1 0%, vars.$bg-2 100%);
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .28;
+  }
+
+  /* Blob superior esquerdo */
+  &::before {
+    width: 45vw; height: 45vw;
+    left: -12vw; top: -10vw;
+    background: radial-gradient(circle at 30% 30%, rgba(vars.$blob-b, .8), rgba(vars.$blob-b, 0) 60%);
+  }
+  /* Blob inferior direito */
+  &::after {
+    width: 50vw; height: 50vw;
+    right: -15vw; bottom: -12vw;
+    background: radial-gradient(circle at 70% 70%, rgba(vars.$blob-a, .8), rgba(vars.$blob-a, 0) 60%);
+  }
 }
 
-/* Card (base = mobile first) */
+/* Card */
 .login-form {
-  background-color: vars.$color-card;
+  position: relative;
+  z-index: 1;
+
+  /* glassmorphism leve */
+  background: rgba(17, 24, 39, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: saturate(120%) blur(10px);
+
   border-radius: vars.$r-16;
-  padding: 1.5rem; /* mobile */
+  padding: 1.75rem;
   width: 100%;
-  max-width: 420px; /* mobile */
+  max-width: 420px; /* base */
   color: vars.$color-text;
   box-shadow: vars.$shadow-lg;
 
@@ -26,14 +69,14 @@
     font-size: clamp(1.4rem, 6vw, 2rem);
     font-weight: 800;
     text-align: center;
-    margin-bottom: 1.25rem;
+    margin-bottom: 2rem; /* espaço do título para os inputs */
   }
 
   &__message {
     text-align: center;
     font-size: .95rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
     padding: .5rem 1rem;
     border-radius: vars.$r-6;
 
@@ -44,46 +87,99 @@
   &__form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+
+    /* espaço entre inputs (já aplicado antes) */
+    gap: clamp(1.6rem, 3.5vw, 2rem);
+
+    /* respiro antes do botão/parte social */
+    margin-bottom: 1.6rem;
   }
 
+  /* Inputs com label flutuante + underline animado */
   &__group {
-    label {
-      display: block;
-      color: vars.$color-muted;
-      font-size: .95rem;
-      margin-bottom: 6px;
-    }
+    padding-top: 2px;
 
-    input {
+    .input-container {
+      position: relative;
       width: 100%;
-      padding: 12px; /* mobile */
-      background-color: vars.$color-bg;
-      border: 1px solid vars.$color-border;
-      border-radius: vars.$r-6;
-      color: vars.$color-text;
-      font-size: 1rem;
+      margin: 0 auto;
 
-      &:focus {
-        border-color: vars.$color-primary;
+      input {
+        font-size: 1rem;
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid vars.$color-border; /* base neutra */
+        padding: 14px 0 12px;
+        background-color: transparent;
         outline: none;
+        color: vars.$color-text;
+        transition: border-color .25s ease;
+
+        &::placeholder { color: transparent; }
+
+        &:focus {
+          border-bottom-color: vars.$brand; /* foco ciano */
+        }
+
+        &[aria-invalid="true"] {
+          border-bottom-color: vars.$color-error;
+        }
       }
 
-      &[aria-invalid="true"] {
-        border-color: vars.$color-error;
+      .label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: vars.$color-muted;  /* agradável antes do foco */
+        transition: all .25s ease;
+        pointer-events: none;
+        font-size: 1rem;
+        line-height: 1.2;
+      }
+
+      input:focus ~ .label,
+      input:not(:placeholder-shown) ~ .label {
+        top: -18px;
+        font-size: .85rem;
+        color: vars.$brand; /* mesma cor do efeito */
+      }
+
+      .underline {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background-color: vars.$brand;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .25s ease;
+      }
+
+      input:focus ~ .underline,
+      input:not(:placeholder-shown) ~ .underline {
+        transform: scaleX(1);
+      }
+
+      input[aria-invalid="true"] ~ .label {
+        color: vars.$color-error;
+      }
+      input[aria-invalid="true"] ~ .underline {
+        background-color: vars.$color-error;
+        transform: scaleX(1);
       }
     }
 
     .login-form__error {
       color: vars.$color-error;
       font-size: .8rem;
-      margin-top: 5px;
+      margin-top: 8px;
       padding-left: 2px;
     }
 
     .login-form__forgot {
       text-align: right;
-      margin-top: 6px;
+      margin-top: 10px;
 
       .link-like {
         appearance: none;
@@ -95,28 +191,28 @@
         cursor: pointer;
         padding: 0;
 
-        &:hover { text-decoration-color: currentColor; color: vars.$color-primary; }
+        &:hover { text-decoration-color: currentColor; color: vars.$brand; }
       }
     }
   }
 
   &__button {
-    background-color: vars.$color-primary;
-    color: #111827;
+    background-color: vars.$brand; /* sem roxo */
+    color: #0b1220;
     border: 0;
-    padding: 12px; /* mobile */
+    padding: 15px;
     font-weight: 700;
     border-radius: vars.$r-6;
     cursor: pointer;
     transition: background-color .2s ease;
 
-    &:hover { background-color: lighten(vars.$color-primary, 8%); }
+    &:hover { background-color: lighten(vars.$brand, 8%); }
   }
 
   &__social-message {
     display: flex;
     align-items: center;
-    margin: 1.5rem 0 1rem;
+    margin: 1.75rem 0 1.1rem;
 
     .line { flex: 1; height: 1px; background-color: vars.$color-border; }
     .message { padding: 0 10px; font-size: .85rem; color: vars.$color-muted; }
@@ -125,28 +221,29 @@
   &__social-icons {
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 1rem;
+    gap: 10px;
+    margin-bottom: 1.1rem;
 
     .icon {
       border: none;
       cursor: pointer;
-      padding: 10px;
-      transition: transform .2s ease, filter .2s ease;
+      padding: 8px;
+      transition: transform .2s ease, filter .2s ease, color .2s ease;
 
       svg {
-        width: 32px; height: 32px; color: vars.$color-text;
-        transition: transform .2s ease, filter .2s ease;
+        width: 24px; height: 24px; color: vars.$color-text;
+        transition: transform .2s ease, filter .2s ease, color .2s ease;
         filter: drop-shadow(0 0 0 transparent);
       }
 
+      /* HOVER: usa a cor global (brand) + o efeito já existente */
       &:hover svg {
-        filter: drop-shadow(0 2px 6px rgba(167, 139, 250, 0.5));
+        color: vars.$brand;
+        filter: drop-shadow(0 2px 6px rgba(34, 211, 238, .45));
         transform: translateY(-2px);
       }
     }
 
-    /* Respeita reduzido movimento */
     @media (prefers-reduced-motion: reduce) {
       .icon svg, .icon { transition: none !important; transform: none !important; }
     }
@@ -155,36 +252,37 @@
   &__signup {
     text-align: center;
     font-size: .9rem;
-    margin-top: 1.25rem;
+    margin-top: 1.35rem;
     color: vars.$color-muted;
 
     a {
       color: vars.$color-text;
       text-decoration: underline transparent;
 
-      &:hover { text-decoration-color: currentColor; color: vars.$color-primary; }
+      &:hover { text-decoration-color: currentColor; color: vars.$brand; }
     }
   }
 
-  /* ====== ESCALAS (mobile-first) ====== */
+  /* ====== ESCALAS ====== */
   @include bp.up(mobile-390) { max-width: 440px; }
   @include bp.up(mobile-412) { max-width: 460px; }
 
   @include bp.up(tablet-768) {
     padding: 2rem;
     max-width: 520px;
-    &__button { padding: 14px; }
-    &__form { gap: 1.25rem; }
-    &__group input { padding: 14px; }
+
+    &__button { padding: 16px; }
+    &__form { gap: 2rem; }
+    &__group .input-container input { padding: 16px 0 12px; }
   }
 
   @include bp.up(tablet-800) { max-width: 540px; }
 
+  /* >>> Apenas DESKTOP mais estreito <<< */
   @include bp.up(desk-1366) {
     padding: 2.25rem;
-    max-width: 560px;
+    max-width: 480px;
   }
-
-  @include bp.up(desk-1440) { max-width: 580px; }
-  @include bp.up(desk-1920) { max-width: 600px; }
+  @include bp.up(desk-1440) { max-width: 500px; }
+  @include bp.up(desk-1920) { max-width: 520px; }
 }

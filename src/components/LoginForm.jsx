@@ -83,26 +83,32 @@ const LoginForm = () => {
         )}
 
         <form className="login-form__form" onSubmit={handleLogin} noValidate>
+          {/* Username */}
           <div className="login-form__group">
-            <label htmlFor="username">Username</label>
-            <input
-              ref={usernameRef}
-              type="text"
-              id="username"
-              name="username"
-              minLength={3}
-              maxLength={30}
-              autoComplete="username"
-              inputMode="text"
-              autoCapitalize="none"
-              autoCorrect="off"
-              spellCheck={false}
-              value={username}
-              onChange={handleUsernameChange}
-              aria-invalid={Boolean(errors.username)}
-              aria-describedby={errors.username ? 'username-error' : undefined}
-              required
-            />
+            <div className="input-container">
+              <input
+                ref={usernameRef}
+                type="text"
+                id="username"
+                name="username"
+                minLength={3}
+                maxLength={30}
+                autoComplete="username"
+                inputMode="text"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                value={username}
+                onChange={handleUsernameChange}
+                aria-invalid={Boolean(errors.username)}
+                aria-describedby={errors.username ? 'username-error' : undefined}
+                placeholder=" "
+                required
+              />
+              <label htmlFor="username" className="label">Username</label>
+              <span className="underline" aria-hidden="true" />
+            </div>
+
             {errors.username && (
               <p id="username-error" className="login-form__error" role="status" aria-live="polite">
                 {errors.username}
@@ -110,27 +116,34 @@ const LoginForm = () => {
             )}
           </div>
 
+          {/* Password */}
           <div className="login-form__group">
-            <label htmlFor="password">Password</label>
-            <input
-              ref={passwordRef}
-              type="password"
-              id="password"
-              name="password"
-              minLength={8}
-              maxLength={64}
-              autoComplete="current-password"
-              value={password}
-              onChange={handlePasswordChange}
-              aria-invalid={Boolean(errors.password)}
-              aria-describedby={errors.password ? 'password-error' : undefined}
-              required
-            />
+            <div className="input-container">
+              <input
+                ref={passwordRef}
+                type="password"
+                id="password"
+                name="password"
+                minLength={8}
+                maxLength={64}
+                autoComplete="current-password"
+                value={password}
+                onChange={handlePasswordChange}
+                aria-invalid={Boolean(errors.password)}
+                aria-describedby={errors.password ? 'password-error' : undefined}
+                placeholder=" "
+                required
+              />
+              <label htmlFor="password" className="label">Password</label>
+              <span className="underline" aria-hidden="true" />
+            </div>
+
             {errors.password && (
               <p id="password-error" className="login-form__error" role="status" aria-live="polite">
                 {errors.password}
               </p>
             )}
+
             <div className="login-form__forgot">
               <button type="button" className="link-like" aria-label="Recuperar senha">Forgot Password?</button>
             </div>
@@ -149,13 +162,13 @@ const LoginForm = () => {
 
         <div className="login-form__social-icons">
           <button type="button" className="icon" aria-label="Entrar com e-mail">
-            <Mail size={32} strokeWidth={1.5} />
+            <Mail size={24} strokeWidth={1.5} />
           </button>
           <button type="button" className="icon" aria-label="Entrar com X (Twitter)">
-            <Twitter size={32} />
+            <Twitter size={24} />
           </button>
           <button type="button" className="icon" aria-label="Entrar com GitHub">
-            <Github size={32} />
+            <Github size={24} />
           </button>
         </div>
 
