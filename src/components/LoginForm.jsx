@@ -1,42 +1,37 @@
-import React, { memo, useCallback, useRef, useState, useEffect } from 'react'
+import React, { memo, useCallback, useRef, useState, useEffect, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Github, Twitter, Mail, Eye, EyeOff } from 'lucide-react'
 import { useLoginForm } from '../hooks/useLoginForm'
-import './loginForm.scss';
+import './loginForm.scss'
 
-/* Toaster global (fora do container) */
-function ErrorToast({ open, onClose, message = '', type = 'error' }) {
+function Toast({ open, onClose, message = '', type = 'error' }) {
   useEffect(() => {
-    if (!open) return;
-    const t = setTimeout(onClose, 3000);
-    return () => clearTimeout(t);
-  }, [open, onClose]);
+    if (!open) return
+    const t = setTimeout(onClose, 3000)
+    return () => clearTimeout(t)
+  }, [open, onClose])
 
-  if (!open) return null;
-
+  if (!open) return null
   return createPortal(
     <div
       className={`app-toast ${type === 'error' ? 'app-toast--error' : 'app-toast--success'}`}
       role="alert"
-      aria-live="assertive"
+      aria-live={type === 'error' ? 'assertive' : 'polite'}
+      aria-atomic="true"
     >
       {message}
     </div>,
     document.body
-  );
+  )
 }
 
 const LoginForm = () => {
   const {
-    username,
-    setUsername,
-    password,
-    setPassword,
-    /* message, messageType, */ // removido do container: agora é toaster
-    errors,
-    validate,
-    clearFieldError,
+    username, setUsername,
+    password, setPassword,
+    errors, validate, clearFieldError,
+    submitting, setSubmitting,
   } = useLoginForm()
 
   const prefersReducedMotion = useReducedMotion()
@@ -46,79 +41,57 @@ const LoginForm = () => {
   const [showPwd, setShowPwd] = useState(false)
   const [toast, setToast] = useState({ open: false, type: 'error', message: '' })
 
-  const openToast = useCallback((type, message) => {
-    setToast({ open: true, type, message })
-  }, [])
+  const openToast = useCallback((type, message) => setToast({ open: true, type, message }), [])
   const closeToast = useCallback(() => setToast(t => ({ ...t, open: false })), [])
 
-  const handleLogin = useCallback(
-    (e) => {
-      e.preventDefault()
-      const result = validate()
-      if (!result.ok) {
-        if (result.firstError === 'username' && usernameRef.current) {
-          usernameRef.current.focus()
-        } else if (result.firstError === 'password' && passwordRef.current) {
-          passwordRef.current.focus()
-        }
-        openToast('error', 'Erro ao fazer Login')
-        return
-      }
-      // Sucesso (exibir toaster verde com a mesma mensagem que você usa no sucesso)
+  const handleLogin = useCallback(async (e) => {
+    e.preventDefault()
+    if (submitting) return
+
+    const result = validate()
+    if (!result.ok) {
+      if (result.firstError === 'username' && usernameRef.current) usernameRef.current.focus()
+      else if (result.firstError === 'password' && passwordRef.current) passwordRef.current.focus()
+      openToast('error', 'Erro ao fazer login')
+      return
+    }
+
+    try {
+      setSubmitting(true)
       openToast('success', 'Login efetuado com sucesso')
-      // TODO: fluxo real de login
-    },
-    [validate, openToast]
-  )
+      setUsername('')
+      setPassword('')
+      if (usernameRef.current) usernameRef.current.blur()
+      if (passwordRef.current) passwordRef.current.blur()
+    } finally {
+      setSubmitting(false)
+    }
+  }, [validate, submitting, openToast, setSubmitting, setUsername, setPassword])
 
-  // Enter envia o form
-  const handleFormKeyDown = useCallback(
-    (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        handleLogin(e)
-      }
-    },
-    [handleLogin]
-  )
+  const handleUsernameChange = useCallback((e) => {
+    setUsername(e.target.value)
+    if (errors.username) clearFieldError('username')
+  }, [setUsername, errors.username, clearFieldError])
 
-  const handleUsernameChange = useCallback(
-    (e) => {
-      setUsername(e.target.value)
-      if (errors.username) clearFieldError('username') // erro some ao digitar
-    },
-    [setUsername, errors.username, clearFieldError]
-  )
+  const handlePasswordChange = useCallback((e) => {
+    setPassword(e.target.value)
+    if (errors.password) clearFieldError('password')
+  }, [setPassword, errors.password, clearFieldError])
 
-  const handlePasswordChange = useCallback(
-    (e) => {
-      setPassword(e.target.value)
-      if (errors.password) clearFieldError('password') // erro some ao digitar
-    },
-    [setPassword, errors.password, clearFieldError]
-  )
-
-  const sectionTitleId = 'login-title'
+  const titleId = useId()
 
   return (
     <>
-      <section className="login-page" aria-labelledby={sectionTitleId}>
+      <section className="login-page" aria-labelledby={titleId}>
         <motion.div
           className="login-form"
           initial={prefersReducedMotion ? false : { opacity: 0, y: -30 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           transition={prefersReducedMotion ? {} : { duration: 0.6, ease: 'easeOut' }}
         >
-          <h1 id={sectionTitleId} className="login-form__title">Login</h1>
+          <h1 id={titleId} className="login-form__title">Login</h1>
 
-          {/* Mensagem em container removida: agora só toaster */}
-
-          <form
-            className="login-form__form"
-            onSubmit={handleLogin}
-            onKeyDown={handleFormKeyDown}
-            noValidate
-          >
+          <form className="login-form__form" onSubmit={handleLogin} noValidate aria-busy={submitting}>
             {/* Username */}
             <div className="login-form__group">
               <div className="input-container">
@@ -128,7 +101,7 @@ const LoginForm = () => {
                   id="username"
                   name="username"
                   minLength={3}
-                  maxLength={20}           /* <= limite atualizado */
+                  maxLength={20}
                   autoComplete="username"
                   inputMode="text"
                   autoCapitalize="none"
@@ -141,7 +114,7 @@ const LoginForm = () => {
                   placeholder=" "
                   required
                 />
-                <label htmlFor="username" className="label">Username</label>
+                <label htmlFor="username" className="label">Usuário</label>
                 <span className="underline" aria-hidden="true" />
               </div>
 
@@ -152,7 +125,7 @@ const LoginForm = () => {
               )}
             </div>
 
-            {/* Password com toggle */}
+            {/* Password */}
             <div className="login-form__group">
               <div className="input-container input-container--with-toggle">
                 <input
@@ -161,7 +134,7 @@ const LoginForm = () => {
                   id="password"
                   name="password"
                   minLength={8}
-                  maxLength={8}           /* <= exatamente 8 */
+                  maxLength={8}
                   autoComplete="current-password"
                   value={password}
                   onChange={handlePasswordChange}
@@ -170,12 +143,13 @@ const LoginForm = () => {
                   placeholder=" "
                   required
                 />
-                <label htmlFor="password" className="label">Password</label>
+                <label htmlFor="password" className="label">Senha</label>
                 <span className="underline" aria-hidden="true" />
                 <button
                   type="button"
                   className="toggle"
                   aria-label={showPwd ? 'Ocultar senha' : 'Mostrar senha'}
+                  aria-pressed={showPwd}
                   onClick={() => setShowPwd((v) => !v)}
                 >
                   {showPwd ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -189,42 +163,35 @@ const LoginForm = () => {
               )}
 
               <div className="login-form__forgot">
-                <button type="button" className="link-like" aria-label="Recuperar senha">Forgot Password?</button>
+                <button type="button" className="link-like" aria-label="Recuperar senha">Esqueci minha senha</button>
               </div>
             </div>
 
-            <button type="submit" className="login-form__button">
-              Sign in
+            <button type="submit" className="login-form__button" disabled={submitting}>
+              Entrar
             </button>
           </form>
 
           <div className="login-form__social-message" aria-hidden="true">
             <div className="line" />
-            <p className="message">Login with social accounts</p>
+            <p className="message">Entrar com redes sociais</p>
             <div className="line" />
           </div>
 
-          <div className="login-form__social-icons">
-            <button type="button" className="icon" aria-label="Entrar com e-mail">
-              <Mail size={24} strokeWidth={1.5} />
-            </button>
-            <button type="button" className="icon" aria-label="Entrar com X (Twitter)">
-              <Twitter size={24} />
-            </button>
-            <button type="button" className="icon" aria-label="Entrar com GitHub">
-              <Github size={24} />
-            </button>
+          <div className="login-form__social-icons" aria-label="Ações de login social">
+            <button type="button" className="icon" aria-label="Entrar com e-mail"><Mail size={24} strokeWidth={1.5} /></button>
+            <button type="button" className="icon" aria-label="Entrar com X (Twitter)"><Twitter size={24} /></button>
+            <button type="button" className="icon" aria-label="Entrar com GitHub"><Github size={24} /></button>
           </div>
 
           <p className="login-form__signup">
-            Don&apos;t have an account?{' '}
-            <a href="#" rel="noopener">Sign up</a>
+            Não tem conta?{' '}
+            <a href="/signup" rel="noopener">Criar conta</a>
           </p>
         </motion.div>
       </section>
 
-      {/* Toaster (erro/sucesso) */}
-      <ErrorToast open={toast.open} onClose={closeToast} message={toast.message} type={toast.type} />
+      <Toast open={toast.open} onClose={closeToast} message={toast.message} type={toast.type} />
     </>
   )
 }

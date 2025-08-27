@@ -1,27 +1,23 @@
-/* ===== Paleta base (dark elegante, sem roxo) ===== */
-$bg-1:  #0b1220;   // topo do fundo
-$bg-2:  #0e1626;   // base do fundo
-$brand: #22d3ee;   // ciano principal (foco/botões)
-$blob-a:#3b82f6;   // azul para blobs
-$blob-b:#22d3ee;   // ciano para blobs
+// Paleta base
+$bg-1:  #0b1220;
+$bg-2:  #0e1626;
+$brand: #22d3ee;
+$blob-a:#3b82f6;
+$blob-b:#22d3ee;
 
-/* ===== Cores de UI ===== */
-$color-bg:    $bg-2;         // plano de fundo geral
-$color-card:  #1f2937;       // fallback de card sólido
-$color-text:  #f3f4f6;       // texto principal
-$color-muted: #9ca3af;       // textos secundários
-$color-border:#374151;       // linhas/bordas discretas
-
-/* Substitui o roxo antigo pelo ciano */
+// Cores de UI 
+$color-bg:    $bg-2;
+$color-card:  #1f2937;
+$color-text:  #f3f4f6;
+$color-muted: #9ca3af;
+$color-border:#374151;
 $color-primary: $brand;
-
 $color-success:    #22c55e;
 $color-success-bg: #064e3b;
 $color-error:      #f87171;
 $color-error-bg:   #7f1d1d;
 
-/* ===== Radii / sombras ===== */
+// Sombras 
 $r-6:  6px;
 $r-16: 16px;
-
 $shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.35);

@@ -1,7 +1,6 @@
 @use '../styles/variables' as vars;
 @use '../styles/breakpoints' as bp;
 
-/* Página */
 .login-page {
   position: relative;
 
@@ -12,7 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   padding: 1.25rem;
   overflow: hidden;
 
@@ -33,30 +32,33 @@
   }
 
   &::before {
-    width: 45vw; height: 45vw;
-    left: -12vw; top: -10vw;
+    width: 45vw;
+    height: 45vw;
+    left: -12vw;
+    top: -10vw;
     background: radial-gradient(circle at 30% 30%, rgba(vars.$blob-b, .8), rgba(vars.$blob-b, 0) 60%);
   }
+
   &::after {
-    width: 50vw; height: 50vw;
-    right: -15vw; bottom: -12vw;
+    width: 50vw;
+    height: 50vw;
+    right: -15vw;
+    bottom: -12vw;
     background: radial-gradient(circle at 70% 70%, rgba(vars.$blob-a, .8), rgba(vars.$blob-a, 0) 60%);
   }
 }
 
-/* Card */
+// Card 
 .login-form {
   position: relative;
   z-index: 1;
-
   background: rgba(17, 24, 39, 0.55);
   border: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: saturate(120%) blur(10px);
-
   border-radius: vars.$r-16;
   padding: 1.75rem;
   width: 100%;
-  max-width: 420px; /* base */
+  max-width: 420px;
   color: vars.$color-text;
   box-shadow: vars.$shadow-lg;
 
@@ -67,8 +69,6 @@
     margin-bottom: 2rem;
   }
 
-  /* Mensagem em container removida */
-
   &__form {
     display: flex;
     flex-direction: column;
@@ -76,7 +76,6 @@
     margin-bottom: 1.6rem;
   }
 
-  /* Inputs com label flutuante + underline animado */
   &__group {
     padding-top: 2px;
 
@@ -96,20 +95,23 @@
         color: vars.$color-text;
         transition: border-color .25s ease;
 
-        &::placeholder { color: transparent; }
+        &::placeholder {
+          color: transparent;
+        }
 
         &:focus {
           border-bottom-color: vars.$brand;
         }
 
-        &[aria-invalid="true"] { border-bottom-color: vars.$color-error; }
-
-        /* Removido o contorno focus-visible do input */
+        &[aria-invalid="true"] {
+          border-bottom-color: vars.$color-error;
+        }
       }
 
       .label {
         position: absolute;
-        top: 0; left: 0;
+        top: 0;
+        left: 0;
         color: vars.$color-muted;
         transition: all .25s ease;
         pointer-events: none;
@@ -117,8 +119,8 @@
         line-height: 1.2;
       }
 
-      input:focus ~ .label,
-      input:not(:placeholder-shown) ~ .label {
+      input:focus~.label,
+      input:not(:placeholder-shown)~.label {
         top: -18px;
         font-size: .85rem;
         color: vars.$brand;
@@ -126,33 +128,45 @@
 
       .underline {
         position: absolute;
-        bottom: 0; left: 0;
-        height: 2px; width: 100%;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
         background-color: vars.$brand;
         transform: scaleX(0);
         transform-origin: left;
         transition: transform .25s ease;
       }
 
-      input:focus ~ .underline,
-      input:not(:placeholder-shown) ~ .underline { transform: scaleX(1); }
+      input:focus~.underline,
+      input:not(:placeholder-shown)~.underline {
+        transform: scaleX(1);
+      }
 
-      input[aria-invalid="true"] ~ .label { color: vars.$color-error; }
-      input[aria-invalid="true"] ~ .underline {
+      input[aria-invalid="true"]~.label {
+        color: vars.$color-error;
+      }
+
+      input[aria-invalid="true"]~.underline {
         background-color: vars.$color-error;
         transform: scaleX(1);
       }
     }
 
-    /* Toggle mostrar/ocultar senha */
+    // Mostrar/ocultar senha
     .input-container--with-toggle {
       .toggle {
         position: absolute;
-        right: 0; bottom: 8px;
-        display: grid; place-items: center;
-        width: 32px; height: 32px;
+        right: 0;
+        bottom: 8px;
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
         color: vars.$color-muted;
-        border: 0; background: transparent; cursor: pointer;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
         transition: color .2s ease;
 
         &:focus-visible {
@@ -162,7 +176,9 @@
         }
 
         @media (hover: hover) {
-          &:hover { color: vars.$brand; }
+          &:hover {
+            color: vars.$brand;
+          }
         }
       }
     }
@@ -195,7 +211,10 @@
         }
 
         @media (hover: hover) {
-          &:hover { text-decoration-color: currentColor; color: vars.$brand; }
+          &:hover {
+            text-decoration-color: currentColor;
+            color: vars.$brand;
+          }
         }
       }
     }
@@ -211,6 +230,11 @@
     cursor: pointer;
     transition: background-color .2s ease;
 
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     &:focus-visible {
       outline: 2px solid vars.$brand;
       outline-offset: 3px;
@@ -218,7 +242,9 @@
     }
 
     @media (hover: hover) {
-      &:hover { background-color: lighten(vars.$brand, 8%); }
+      &:hover {
+        background-color: lighten(vars.$brand, 8%);
+      }
     }
   }
 
@@ -227,8 +253,17 @@
     align-items: center;
     margin: 1.75rem 0 1.1rem;
 
-    .line { flex: 1; height: 1px; background-color: vars.$color-border; }
-    .message { padding: 0 10px; font-size: .85rem; color: vars.$color-muted; }
+    .line {
+      flex: 1;
+      height: 1px;
+      background-color: vars.$color-border;
+    }
+
+    .message {
+      padding: 0 10px;
+      font-size: .85rem;
+      color: vars.$color-muted;
+    }
   }
 
   &__social-icons {
@@ -244,7 +279,9 @@
       transition: transform .2s ease, filter .2s ease, color .2s ease;
 
       svg {
-        width: 24px; height: 24px; color: vars.$color-text;
+        width: 24px;
+        height: 24px;
+        color: vars.$color-text;
         transition: transform .2s ease, filter .2s ease, color .2s ease;
         filter: drop-shadow(0 0 0 transparent);
       }
@@ -265,7 +302,12 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .icon svg, .icon { transition: none !important; transform: none !important; }
+
+      .icon svg,
+      .icon {
+        transition: none !important;
+        transform: none !important;
+      }
     }
   }
 
@@ -286,35 +328,59 @@
       }
 
       @media (hover: hover) {
-        &:hover { text-decoration-color: currentColor; color: vars.$brand; }
+        &:hover {
+          text-decoration-color: currentColor;
+          color: vars.$brand;
+        }
       }
     }
   }
 
-  /* ====== ESCALAS ====== */
-  @include bp.up(mobile-390) { max-width: 440px; }
-  @include bp.up(mobile-412) { max-width: 460px; }
+  // Escalas
+  @include bp.up(mobile-390) {
+    max-width: 440px;
+  }
+
+  @include bp.up(mobile-412) {
+    max-width: 460px;
+  }
 
   @include bp.up(tablet-768) {
     padding: 2rem;
     max-width: 520px;
 
-    &__button { padding: 16px; }
-    &__form { gap: 2rem; }
-    &__group .input-container input { padding: 16px 0 12px; }
+    &__button {
+      padding: 16px;
+    }
+
+    &__form {
+      gap: 2rem;
+    }
+
+    &__group .input-container input {
+      padding: 16px 0 12px;
+    }
   }
 
-  @include bp.up(tablet-800) { max-width: 540px; }
+  @include bp.up(tablet-800) {
+    max-width: 540px;
+  }
 
   @include bp.up(desk-1366) {
     padding: 2.25rem;
     max-width: 480px;
   }
-  @include bp.up(desk-1440) { max-width: 500px; }
-  @include bp.up(desk-1920) { max-width: 520px; }
+
+  @include bp.up(desk-1440) {
+    max-width: 500px;
+  }
+
+  @include bp.up(desk-1920) {
+    max-width: 520px;
+  }
 }
 
-/* ===== Toaster global ===== */
+// Toaster global
 .app-toast {
   position: fixed;
   top: 16px;
@@ -322,23 +388,26 @@
   z-index: 9999;
   padding: 12px 16px;
   border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
   font-weight: 700;
   line-height: 1.2;
   max-width: min(92vw, 420px);
   border: 1px solid transparent;
+  pointer-events: none;
+  backdrop-filter: blur(2px);
+  z-index: 9999;
 }
 
-/* Erro: fundo TODO vermelho */
+// Erro
 .app-toast--error {
   background: vars.$color-error;
   color: #fff;
-  border-color: rgba(0,0,0,.15);
+  border-color: rgba(0, 0, 0, .15);
 }
 
-/* Sucesso: fundo TODO verde atual */
+// Sucesso
 .app-toast--success {
   background: vars.$color-success;
   color: #fff;
-  border-color: rgba(0,0,0,.15);
+  border-color: rgba(0, 0, 0, .15);
 }
