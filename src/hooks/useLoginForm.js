@@ -17,12 +17,12 @@ export function useLoginForm() {
     const next = { username: '', password: '' }
     let firstError = null
 
-    if (u.length < 3 || u.length > 20) {
-      next.username = 'Usuário deve ter entre 3 e 20 caracteres.'
+    if (u.length < 3 || u.length > 80 || !u.includes('@')) {
+      next.username = 'Informe um e-mail válido.'
       firstError = firstError || 'username'
     }
     if (p.length !== 8) {
-      next.password = 'A senha deve ter exatamente 8 caracteres.'
+      next.password = 'Password must be exactly 8 characters.'
       firstError = firstError || 'password'
     }
 

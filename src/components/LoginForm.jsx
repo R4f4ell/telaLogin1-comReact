@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useRef, useState, useEffect, useId } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, useReducedMotion } from 'framer-motion'
-import { Github, Twitter, Mail, Eye, EyeOff } from 'lucide-react'
+import { motion as Motion, useReducedMotion } from 'framer-motion'
+import { Eye, EyeOff } from 'lucide-react'
 import { useLoginForm } from '../hooks/useLoginForm'
 import './loginForm.scss'
 
@@ -39,6 +39,7 @@ const LoginForm = () => {
   const passwordRef = useRef(null)
 
   const [showPwd, setShowPwd] = useState(false)
+  const [remember, setRemember] = useState(false)
   const [toast, setToast] = useState({ open: false, type: 'error', message: '' })
 
   const openToast = useCallback((type, message) => setToast({ open: true, type, message }), [])
@@ -83,27 +84,29 @@ const LoginForm = () => {
   return (
     <>
       <section className="login-page" aria-labelledby={titleId}>
-        <motion.div
+        <Motion.div
           className="login-form"
           initial={prefersReducedMotion ? false : { opacity: 0, y: -30 }}
           animate={prefersReducedMotion ? {} : { opacity: 1, y: 0 }}
           transition={prefersReducedMotion ? {} : { duration: 0.6, ease: 'easeOut' }}
         >
-          <h1 id={titleId} className="login-form__title">Login</h1>
+          <div className="login-form__header">
+            <h1 id={titleId} className="login-form__title">Welcome back</h1>
+            <p className="login-form__subtitle">Please enter your details.</p>
+          </div>
 
           <form className="login-form__form" onSubmit={handleLogin} noValidate aria-busy={submitting}>
-            {/* Username */}
             <div className="login-form__group">
               <div className="input-container">
                 <input
                   ref={usernameRef}
-                  type="text"
-                  id="username"
-                  name="username"
+                  type="email"
+                  id="email"
+                  name="email"
                   minLength={3}
-                  maxLength={20}
-                  autoComplete="username"
-                  inputMode="text"
+                  maxLength={80}
+                  autoComplete="email"
+                  inputMode="email"
                   autoCapitalize="none"
                   autoCorrect="off"
                   spellCheck={false}
@@ -111,11 +114,9 @@ const LoginForm = () => {
                   onChange={handleUsernameChange}
                   aria-invalid={Boolean(errors.username)}
                   aria-describedby={errors.username ? 'username-error' : undefined}
-                  placeholder=" "
+                  placeholder="Enter your email"
                   required
                 />
-                <label htmlFor="username" className="label">Usuário</label>
-                <span className="underline" aria-hidden="true" />
               </div>
 
               {errors.username && (
@@ -125,7 +126,6 @@ const LoginForm = () => {
               )}
             </div>
 
-            {/* Password */}
             <div className="login-form__group">
               <div className="input-container input-container--with-toggle">
                 <input
@@ -140,15 +140,13 @@ const LoginForm = () => {
                   onChange={handlePasswordChange}
                   aria-invalid={Boolean(errors.password)}
                   aria-describedby={errors.password ? 'password-error' : undefined}
-                  placeholder=" "
+                  placeholder="Password"
                   required
                 />
-                <label htmlFor="password" className="label">Senha</label>
-                <span className="underline" aria-hidden="true" />
                 <button
                   type="button"
                   className="toggle"
-                  aria-label={showPwd ? 'Ocultar senha' : 'Mostrar senha'}
+                  aria-label={showPwd ? 'Hide password' : 'Show password'}
                   aria-pressed={showPwd}
                   onClick={() => setShowPwd((v) => !v)}
                 >
@@ -162,33 +160,35 @@ const LoginForm = () => {
                 </p>
               )}
 
-              <div className="login-form__forgot">
-                <button type="button" className="link-like" aria-label="Recuperar senha">Esqueci minha senha</button>
+              <div className="login-form__options">
+                <label className="login-form__remember">
+                  <input
+                    type="checkbox"
+                    checked={remember}
+                    onChange={(e) => setRemember(e.target.checked)}
+                  />
+                  <span>Remember for 30 days</span>
+                </label>
+
+                <button type="button" className="link-like" aria-label="Forgot password">Forgot password</button>
               </div>
             </div>
 
             <button type="submit" className="login-form__button" disabled={submitting}>
-              Entrar
+              Sign in
             </button>
           </form>
 
-          <div className="login-form__social-message" aria-hidden="true">
-            <div className="line" />
-            <p className="message">Entrar com redes sociais</p>
-            <div className="line" />
-          </div>
-
-          <div className="login-form__social-icons" aria-label="Ações de login social">
-            <button type="button" className="icon" aria-label="Entrar com e-mail"><Mail size={24} strokeWidth={1.5} /></button>
-            <button type="button" className="icon" aria-label="Entrar com X (Twitter)"><Twitter size={24} /></button>
-            <button type="button" className="icon" aria-label="Entrar com GitHub"><Github size={24} /></button>
-          </div>
+          <button type="button" className="login-form__google">
+            <span aria-hidden="true">G</span>
+            Sign in with Google
+          </button>
 
           <p className="login-form__signup">
-            Não tem conta?{' '}
-            <a href="/signup" rel="noopener">Criar conta</a>
+            Don't have an account?{' '}
+            <a href="/signup" rel="noopener">Sign up</a>
           </p>
-        </motion.div>
+        </Motion.div>
       </section>
 
       <Toast open={toast.open} onClose={closeToast} message={toast.message} type={toast.type} />
