@@ -472,8 +472,8 @@
   .login-page {
     justify-content: center;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, .97) 0%, rgba(255, 255, 255, .9) 52%, rgba(255, 255, 255, .76) 100%),
-      url('/fundo-login.webp') center center / cover no-repeat;
+      linear-gradient(180deg, rgba(255, 255, 255, .82) 0%, rgba(255, 255, 255, .68) 52%, rgba(255, 255, 255, .5) 100%),
+      url('/fundo-login.webp') right center / cover no-repeat;
 
     &::before {
       opacity: 1;
@@ -499,6 +499,340 @@
 
     &__signup {
       margin-top: .9rem;
+    }
+  }
+}
+
+// Ajuste visual final do formulário solto
+.login-page {
+  padding: clamp(1.25rem, 4.6vw, 4rem);
+}
+
+.login-form {
+  max-width: min(100%, 365px);
+  margin-left: clamp(0rem, 1.4vw, 1.5rem);
+  color: #14201d;
+
+  &__header {
+    margin-bottom: 1.55rem;
+  }
+
+  &__title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.4rem, 4.3vw, 3.7rem);
+    font-weight: 400;
+    line-height: .94;
+    text-align: left;
+    margin-bottom: .85rem;
+    color: #111816;
+  }
+
+  &__subtitle {
+    font-size: .98rem;
+    color: #465652;
+    text-align: left;
+  }
+
+  &__form {
+    gap: .75rem;
+    margin-bottom: .8rem;
+  }
+
+  &__group {
+    .input-container {
+      input {
+        min-height: 50px;
+        padding: 0 1.05rem;
+        border: 1px solid rgba(39, 53, 51, .14);
+        border-radius: 999px;
+        background-color: rgba(255, 255, 255, .74);
+        color: #14201d;
+        font-size: .95rem;
+        box-shadow: 0 12px 28px rgba(29, 44, 39, .045);
+        backdrop-filter: blur(5px);
+
+        &::placeholder {
+          color: #6c7b77;
+        }
+
+        &:focus {
+          border-color: rgba(13, 158, 126, .5);
+          background-color: rgba(255, 255, 255, .9);
+          box-shadow: 0 0 0 4px rgba(13, 158, 126, .09), 0 14px 30px rgba(29, 44, 39, .06);
+        }
+      }
+    }
+
+    .input-container--with-toggle {
+      input {
+        padding-right: 3.05rem;
+      }
+
+      .toggle {
+        right: 11px;
+        width: 30px;
+        height: 30px;
+        color: #6c7b77;
+      }
+    }
+
+    .login-form__error {
+      font-size: .78rem;
+      margin-top: 7px;
+      padding-left: 1rem;
+    }
+  }
+
+  &__options {
+    margin-top: .65rem;
+    font-size: .84rem;
+    color: #33413d;
+  }
+
+  .link-like {
+    font-size: .84rem;
+    color: #0b7f68;
+
+    @media (hover: hover) {
+      &:hover {
+        color: #075f50;
+      }
+    }
+  }
+
+  &__button {
+    min-height: 50px;
+    padding: 14px 22px;
+    border-radius: 999px;
+    background: #111816;
+    box-shadow: 0 14px 30px rgba(17, 24, 22, .18);
+
+    @media (hover: hover) {
+      &:hover {
+        background: #0d9e7e;
+        box-shadow: 0 14px 30px rgba(13, 158, 126, .18);
+      }
+    }
+  }
+
+  &__google {
+    min-height: 50px;
+    margin-top: .2rem;
+    border-color: rgba(39, 53, 51, .14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .74);
+    color: #1f2a27;
+    font-size: .95rem;
+    box-shadow: 0 12px 28px rgba(29, 44, 39, .045);
+    backdrop-filter: blur(5px);
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(13, 158, 126, .35);
+        background: rgba(255, 255, 255, .9);
+        box-shadow: 0 12px 28px rgba(29, 44, 39, .08);
+      }
+    }
+  }
+
+  &__signup {
+    margin-top: 1.2rem;
+    color: #4d5b57;
+
+    a {
+      color: #0b7f68;
+
+      @media (hover: hover) {
+        &:hover {
+          color: #075f50;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .login-form {
+    margin-left: 0;
+  }
+}
+
+@media (max-height: 720px) {
+  .login-form {
+    &__title {
+      font-size: clamp(2.1rem, 4vw, 3rem);
+      margin-bottom: .7rem;
+    }
+
+    &__header {
+      margin-bottom: 1.1rem;
+    }
+
+    &__form {
+      gap: .65rem;
+      margin-bottom: .7rem;
+    }
+
+    &__signup {
+      margin-top: .9rem;
+    }
+  }
+}
+
+// Refinamento de cores, fonte e controles
+.login-form {
+  max-width: min(100%, 420px);
+  color: vars.$login-ink;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Helvetica Neue", Arial, sans-serif;
+
+  &__title {
+    font-family: inherit;
+    font-size: clamp(1.85rem, 3vw, 2.65rem);
+    font-weight: 750;
+    line-height: 1.08;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  &__subtitle {
+    color: vars.$login-muted;
+    text-align: center;
+  }
+
+  &__group .input-container input {
+    border-color: vars.$login-border;
+    background-color: vars.$login-surface;
+    color: vars.$login-ink;
+    box-shadow: vars.$login-shadow;
+
+    &:focus {
+      border-color: rgba(vars.$login-accent, .48);
+      background-color: vars.$login-surface-strong;
+      box-shadow: 0 0 0 4px rgba(vars.$login-accent, .1), vars.$login-shadow;
+    }
+  }
+
+  &__group .input-container--with-toggle .toggle {
+    &:focus-visible {
+      outline-color: vars.$login-accent;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: vars.$login-accent;
+      }
+    }
+  }
+
+  &__remember {
+    input {
+      position: relative;
+      flex: 0 0 auto;
+      width: 17px;
+      height: 17px;
+      border-color: vars.$login-border;
+      border-radius: 5px;
+      background: vars.$login-surface;
+      transition: background-color .18s ease, border-color .18s ease, box-shadow .18s ease;
+
+      &:checked {
+        background: vars.$login-accent;
+        border-color: vars.$login-accent;
+        box-shadow: none;
+      }
+
+      &:checked::after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 4px;
+        height: 8px;
+        border: solid #fff;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+
+      &:focus-visible {
+        outline-color: vars.$login-accent;
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          border-color: rgba(vars.$login-accent, .48);
+          box-shadow: 0 0 0 3px rgba(vars.$login-accent, .08);
+        }
+      }
+    }
+  }
+
+  .link-like,
+  &__signup a {
+    color: vars.$login-accent;
+
+    &:focus-visible {
+      outline-color: vars.$login-accent;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: vars.$login-accent-hover;
+      }
+    }
+  }
+
+  &__button {
+    background: vars.$login-ink;
+    box-shadow: vars.$login-shadow-strong;
+
+    &:focus-visible {
+      outline-color: vars.$login-accent;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background: vars.$login-ink;
+        box-shadow: 0 18px 38px rgba(vars.$login-ink, .24);
+      }
+    }
+
+    &:active {
+      box-shadow: vars.$login-shadow-strong;
+    }
+  }
+
+  &__google {
+    border-color: vars.$login-border;
+    background: vars.$login-surface;
+    box-shadow: vars.$login-shadow;
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: rgba(vars.$login-accent, .32);
+        background: vars.$login-surface-strong;
+        box-shadow: 0 14px 30px rgba(vars.$login-ink, .08);
+      }
+    }
+  }
+
+  &__google {
+    svg {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 auto;
+    }
+
+    &:focus-visible {
+      outline-color: vars.$login-accent;
+    }
+  }
+}
+
+@media (max-width: 430px) {
+  .login-form {
+    &__title {
+      white-space: normal;
     }
   }
 }

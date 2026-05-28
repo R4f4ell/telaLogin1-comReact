@@ -14,10 +14,5 @@ body {
   accent-color: v.$brand;
 }
 
-::selection {
-  background: rgba(v.$brand, 0.25);
-  color: v.$color-text;
-}
-
 button { background: none; }
 a { color: inherit; }

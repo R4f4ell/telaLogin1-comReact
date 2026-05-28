@@ -17,6 +17,17 @@ $color-success-bg: #064e3b;
 $color-error:      #f87171;
 $color-error-bg:   #7f1d1d;
 
+// Login sobre imagem
+$login-accent: #2f4638;
+$login-accent-hover: #3f5f4d;
+$login-ink: #101a16;
+$login-muted: #5d6b66;
+$login-border: rgba($login-accent, .18);
+$login-surface: rgba(255, 255, 255, .78);
+$login-surface-strong: rgba(255, 255, 255, .92);
+$login-shadow: 0 12px 28px rgba(29, 44, 39, .05);
+$login-shadow-strong: 0 16px 34px rgba(16, 26, 22, .18);
+
 // Sombras 
 $r-6:  6px;
 $r-16: 16px;

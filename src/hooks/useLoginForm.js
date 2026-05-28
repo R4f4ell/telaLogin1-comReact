@@ -22,7 +22,7 @@ export function useLoginForm() {
       firstError = firstError || 'username'
     }
     if (p.length !== 8) {
-      next.password = 'Password must be exactly 8 characters.'
+      next.password = 'A senha deve ter exatamente 8 caracteres.'
       firstError = firstError || 'password'
     }
 
